@@ -64,11 +64,22 @@ jobs:
         shell: bash
         run: bash scripts/verify-cpanel-bundle.sh dist-cpanel
 
+      - name: Create File Manager ZIP
+        run: cd dist-cpanel && zip -qr ../crowdcad-cpanel.zip .
+
       - name: Upload cPanel artifact
         uses: actions/upload-artifact@v4
         with:
           name: crowdcad-cpanel
           path: dist-cpanel/
           include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload single ZIP for cPanel
+        uses: actions/upload-artifact@v4
+        with:
+          name: crowdcad-cpanel-zip
+          path: crowdcad-cpanel.zip
           if-no-files-found: error
           retention-days: 30
