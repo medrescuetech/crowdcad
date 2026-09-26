@@ -15,7 +15,7 @@ This deployment keeps CrowdCAD's supported **Firebase backend** and packages its
    - `NEXT_PUBLIC_FIREBASE_APP_ID`
    - `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` (optional)
 4. Open **Actions > Build cPanel deployment > Run workflow**.
-5. When green, download the `crowdcad-cpanel` artifact and extract it locally.
+5. When green, download the `crowdcad-cpanel-zip` artifact. Extract its outer GitHub artifact ZIP locally to obtain `crowdcad-cpanel.zip`.
 
 The workflow is manual-only until you choose to enable automatic rebuilds. This avoids failed builds before the Firebase variables have been configured.
 
@@ -29,8 +29,8 @@ The workflow is manual-only until you choose to enable automatic rebuilds. This 
    - Application root: `crowdcad`
    - Application URL: the chosen subdomain
    - Startup file: `server.js`
-4. In File Manager, open the application root (for example `/home/CPANELUSER/crowdcad`).
-5. Upload the contents of the GitHub Actions artifact **into that directory**. `server.js` must be directly inside the application root, not one folder deeper.
+4. In File Manager, create a staging folder outside the application root (for example `/home/CPANELUSER/crowdcad-upload`). Upload `crowdcad-cpanel.zip` there and extract it. Enable display of hidden files; the extracted `.next` directory is required.
+5. In SSH/Terminal, run `cd ~/crowdcad-upload && bash scripts/install-cpanel.sh ~/crowdcad`. This checks the bundle, backs up an existing application, installs the runtime and requests a Passenger restart. No sudo or server-side npm build is required.
 6. Add cPanel environment variables:
    - `NODE_ENV=production`
    - `HOSTNAME=0.0.0.0`
@@ -39,7 +39,7 @@ The workflow is manual-only until you choose to enable automatic rebuilds. This 
 7. Do not manually set `PORT`; Passenger/cPanel supplies it.
 8. Restart the application from cPanel.
 
-If cPanel provides a Terminal, verify the upload:
+Verify the installation:
 
 ```bash
 cd ~/crowdcad
