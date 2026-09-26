@@ -22,7 +22,7 @@ fi
 
 # Include small deployment helpers; these do not contain secrets or source app code.
 mkdir -p dist-cpanel/scripts
-for helper in scripts/verify-cpanel-bundle.sh scripts/restart-cpanel.sh; do
+for helper in scripts/verify-cpanel-bundle.sh scripts/restart-cpanel.sh scripts/install-cpanel.sh; do
   if [ -f "$helper" ]; then cp -a "$helper" dist-cpanel/scripts/; fi
 done
 for doc in CPANEL_DEPLOYMENT.md CPANEL_QUICKSTART.md; do
